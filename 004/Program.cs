@@ -10,12 +10,12 @@ int ReadInt(string message)
     return int.Parse(Console.ReadLine()!);
 }
 
-void FillMatrix(int[,] arr)
+void EmptyMatrix(int[,] arr)
 {
     for (int i = 0; i < arr.GetLength(0); i++)
         {for (int j = 0; j < arr.GetLength(1); j++)
             {
-                arr[i,j]=new Random().Next(1,100);
+                arr[i,j]=0;
             }
         
     }
@@ -26,16 +26,25 @@ void PrintMatrix(int[,] arr)
     for (int i = 0; i < arr.GetLength(0); i++)
     {for (int j = 0; j < arr.GetLength(1); j++)
     {
-        Console.Write($"\t {arr[i,j]}");
+        if(arr[i,j]==0) Console.Write($"\t ");
+        else Console.Write($"\t {arr[i,j]}");
     }
         Console.WriteLine();
     }
 }
 
-int hight=ReadInt("Введите высоту матрицы");
-int length=ReadInt("Введите ширину матрицы");
+int hight=ReadInt("Введите высоту треугольника Паскаля");
+int length=hight*2+1;
 int[,] matrix=new int[hight,length];
-int[,] newmatrix=new int[hight-1, length-1];
-FillMatrix(matrix);
+EmptyMatrix(matrix);
+
+matrix[0,hight+1]=1;
+for (int i = 1; i < hight; i++)
+    {for (int j = 1; j < length-1; j++)
+    { if((matrix[i-1,j-1]!=0)||(matrix[i-1,j+1]!=0))
+        matrix[i,j]=matrix[i-1,j-1]+matrix[i-1,j+1];
+    }
+        
+    }
 PrintMatrix(matrix);
 PrintIn(" ");
